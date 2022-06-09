@@ -60,8 +60,11 @@ int main()
     float tempM[9];
     float error;
 
+    // 3rd, we specify the condition to end the loop
+    bool foundYet = false;
+
     // now we iterate to find the eigenvector: 
-    for (int i=0; i < 7; i++)
+    for  (int i =0; i < 99; i++)
     {
         multiply_AX(A, V, AV);
         for (int i=0; i<3; i++)
@@ -70,7 +73,7 @@ int main()
                 m = AV[i];
         }
         tempM[i] = m;
-        std::cout << "m " <<i << ":" << m << std::endl;
+        // std::cout << "m " <<i << ":" << m << std::endl;
         for (int i=0; i < 3; i++)
         {
             V[i] = AV[i] / m;
@@ -78,11 +81,15 @@ int main()
         if(i != 0)
         {
             error = m - tempM[i-1];
-            std::cout << "Error " << i << ":" <<  error << std::endl;
+           // std::cout << "Error " << i << ":" <<  error << std::endl;
         } 
+        if (i!=0 && (m - tempM[i-1] ) < delta)
+            foundYet = true;
+        if (foundYet)
+         break;
     }
     
-    // std::cout << "m: " << m << std::endl;
+    std::cout << "m: " << m << std::endl;
     std::cout << "Eigenvector: "  << std::endl;
     std::cout << V[0] << std::endl; 
     std::cout << V[1] << std::endl; 
