@@ -22,13 +22,13 @@ int main()
 {
     // defining Matrix A
     int A[3][3] ={
-        {3, -1, 0},
-        {-2, 6, -2},
-        {0, -1, 3}
+        {5, -2, 1},
+        {-2, 2, 0},
+        {2, -2, 3}
     };
 
     // defining Matrix X
-    float X[3] = {0, 1, 0};
+    float X[3] = {1, 0, 1};
 
     // New Matrix Y that will be the result of
     // matrix Multiplication Y=AX, 
@@ -61,10 +61,10 @@ int main()
     float error;
 
     // 3rd, we specify the condition to end the loop
-    bool foundYet = false;
+    int foundYet;
 
     // now we iterate to find the eigenvector: 
-    for  (int i =0; i < 99; i++)
+    for  (int i =0; i < foundYet + 1; i++)
     {
         multiply_AX(A, V, AV);
         for (int i=0; i<3; i++)
@@ -84,12 +84,10 @@ int main()
            // std::cout << "Error " << i << ":" <<  error << std::endl;
         } 
         if (i!=0 && (m - tempM[i-1] ) < delta)
-            foundYet = true;
-        if (foundYet)
-         break;
+            foundYet = i; 
     }
     
-    std::cout << "m: " << m << std::endl;
+    std::cout << "eigenvalue: " << m << std::endl;
     std::cout << "Eigenvector: "  << std::endl;
     std::cout << V[0] << std::endl; 
     std::cout << V[1] << std::endl; 
