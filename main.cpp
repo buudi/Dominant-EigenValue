@@ -2,6 +2,7 @@
 // follow me on github: https://github.com/buudi 
 // check latest updates for this program: https://github.com/buudi/Dominant-EigenValue 
 #include <iostream>
+#include <cmath>
 #include <cstdlib>
 
 float* multiply_AX(int A[3][3], float X[3], float Y[3])
@@ -21,14 +22,21 @@ float* multiply_AX(int A[3][3], float X[3], float Y[3])
 int main()
 {
     // defining Matrix A
+    // int A[3][3] ={
+    //     {5, -2, 1},
+    //     {-2, 2, 0},
+    //     {2, -2, 3}
+    // };
     int A[3][3] ={
-        {5, -2, 1},
-        {-2, 2, 0},
-        {2, -2, 3}
+        {-2, -6, 0},
+        {2, 7, 0},
+        {1, 2, -1}
     };
 
+
+
     // defining Matrix X
-    float X[3] = {1, 0, 1};
+    float X[3] = {0, 1, 1};
 
     // New Matrix Y that will be the result of
     // matrix Multiplication Y=AX, 
@@ -56,7 +64,6 @@ int main()
     // 2nd we initilize a holder for current error, the A*V vector and 
     // for the eigen value m:
     float AV[3] = {0, 0, 0};
-    float m = 0;
     float tempM[9];
     float error;
 
@@ -66,32 +73,57 @@ int main()
     // now we iterate to find the eigenvector: 
     for  (int i =0; i < foundYet + 1; i++)
     {
+        std::cout << "Iteration: " << i  << std::endl;
+        std::cout << "Eigenvector: "  << std::endl;
+        std::cout << V[0] << std::endl; 
+        std::cout << V[1] << std::endl; 
+        std::cout << V[2] << std::endl;
+        std::cout << std::endl;
+
         multiply_AX(A, V, AV);
+        float m = 0;
         for (int i=0; i<3; i++)
         {
             if (AV[i] > m)
                 m = AV[i];
         }
         tempM[i] = m;
-        // std::cout << "m " <<i << ":" << m << std::endl;
+        std::cout << "tempM: " << tempM[i] << std::endl;
         for (int i=0; i < 3; i++)
         {
             V[i] = AV[i] / m;
-        } 
+        }
+        
+        std::cout << "Matrix A x eigenvector ; AV: " << std::endl;
+        std::cout << AV[0] << std::endl; 
+        std::cout << AV[1] << std::endl; 
+        std::cout << AV[2] << std::endl;
+        std::cout << std::endl;
+        std::cout << "eigenvalue: " << m << std::endl;
+        
+        
+        
         if(i != 0)
         {
             error = m - tempM[i-1];
-           // std::cout << "Error " << i << ":" <<  error << std::endl;
-        } 
-        if (i!=0 && (m - tempM[i-1] ) < delta)
+            if (error < 0)
+                error = fabs(error);
+            std::cout << "Error: " <<  error << std::endl;
+        }
+
+        std::cout << std::endl;
+        std::cout << "-------------------------" << std::endl;
+        std::cout << std::endl; 
+        
+        if (i!=0 && (error) < delta)
             foundYet = i; 
     }
     
-    std::cout << "eigenvalue: " << m << std::endl;
-    std::cout << "Eigenvector: "  << std::endl;
-    std::cout << V[0] << std::endl; 
-    std::cout << V[1] << std::endl; 
-    std::cout << V[2] << std::endl; 
+    // std::cout << "eigenvalue: " << m << std::endl;
+    // std::cout << "Eigenvector: "  << std::endl;
+    // std::cout << V[0] << std::endl; 
+    // std::cout << V[1] << std::endl; 
+    // std::cout << V[2] << std::endl; 
 
     system("pause");
     return 0;
