@@ -59,7 +59,7 @@ int main()
     }
 
     // defining the error value as delta:
-    float delta = 0.0005;
+    float delta = 0.05;
 
     // 2nd we initilize a holder for current error, the A*V vector and 
     // for the eigen value m:
