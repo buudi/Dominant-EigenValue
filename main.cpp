@@ -21,22 +21,22 @@ float* multiply_AX(int A[3][3], float X[3], float Y[3])
 
 int main()
 {
-    // defining Matrix A
-    // int A[3][3] ={
-    //     {5, -2, 1},
-    //     {-2, 2, 0},
-    //     {2, -2, 3}
-    // };
+    //defining Matrix A
     int A[3][3] ={
-        {-2, -6, 0},
-        {2, 7, 0},
-        {1, 2, -1}
+        {5, -2, 1},
+        {-2, 2, 0},
+        {2, -2, 3}
     };
+    // int A[3][3] ={
+    //     {-2, -6, 0},
+    //     {2, 7, 0},
+    //     {1, 2, -1}
+    // };
 
 
 
     // defining Matrix X
-    float X[3] = {0, 1, 1};
+    float X[3] = {1, 0, 1};
 
     // New Matrix Y that will be the result of
     // matrix Multiplication Y=AX, 
@@ -59,29 +59,30 @@ int main()
     }
 
     // defining the error value as delta:
-    float delta = 0.05;
+    float delta = 0.0005;
 
     // 2nd we initilize a holder for current error, the A*V vector and 
     // for the eigen value m:
     float AV[3] = {0, 0, 0};
     float tempM[9];
     float error;
+    bool foundYetbool = false;
 
     // 3rd, we specify the condition to end the loop
     int foundYet;
+    float m;
 
     // now we iterate to find the eigenvector: 
-    for  (int i =0; i < foundYet + 1; i++)
+    for  (int i =0; i < foundYet; i++)
     {
         std::cout << "Iteration: " << i  << std::endl;
         std::cout << "Eigenvector: "  << std::endl;
-        std::cout << V[0] << std::endl; 
-        std::cout << V[1] << std::endl; 
-        std::cout << V[2] << std::endl;
+        std::cout << "( "<< V[0] << ", " << V[1] << ", " << V[2]<< " ) transpose" <<  std::endl; 
+
         std::cout << std::endl;
 
         multiply_AX(A, V, AV);
-        float m = 0;
+        m = 0;
         for (int i=0; i<3; i++)
         {
             if (AV[i] > m)
@@ -95,9 +96,8 @@ int main()
         }
         
         std::cout << "Matrix A x eigenvector ; AV: " << std::endl;
-        std::cout << AV[0] << std::endl; 
-        std::cout << AV[1] << std::endl; 
-        std::cout << AV[2] << std::endl;
+        std::cout << "( "<< AV[0] << ", " << AV[1] << ", " << AV[2]<< " ) transpose" <<  std::endl; 
+
         std::cout << std::endl;
         std::cout << "eigenvalue: " << m << std::endl;
         
@@ -106,22 +106,23 @@ int main()
         if(i != 0)
         {
             error = m - tempM[i-1];
-            if (error < 0)
-                error = fabs(error);
-            std::cout << "Error: " <<  error << std::endl;
+            std::cout << "Error: " <<  fabs(error) << std::endl;
         }
 
         std::cout << std::endl;
         std::cout << "-------------------------" << std::endl;
         std::cout << std::endl; 
         
-        if (i!=0 && (error) < delta)
-            foundYet = i; 
+        if (i!=0 && fabs(error) < delta)
+            break;
+        
     }
     
-    // std::cout << "eigenvalue: " << m << std::endl;
-    // std::cout << "Eigenvector: "  << std::endl;
-    // std::cout << V[0] << std::endl; 
+    std::cout << "Final Solution: " << std::endl;
+    std::cout << "eigenvalue: " << m << std::endl;
+    std::cout << "Eigenvector: "  << std::endl;
+    std::cout << "( "<< V[0] << ", " << V[1] << ", " << V[2]<< " ) transpose" <<  std::endl; 
+    // std::cout << V[0] << std::endl;
     // std::cout << V[1] << std::endl; 
     // std::cout << V[2] << std::endl; 
 
